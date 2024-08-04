@@ -232,3 +232,55 @@ export const getSuggesteduser = async (req, res) => {
     });
   }
 };
+
+export const followOrUnfollow = async (req, res) => {
+  try {
+    const followerId = req.body.follower; // ID of the user who is following/unfollowing
+    const followingId = req.params.id; // ID of the user to be followed/unfollowed
+
+    if (followerId === followingId) {
+      return res.status(400).json({
+        message: "You can't follow yourself",
+        success: false,
+      });
+    }
+
+    const user = await User.findById(followerId);
+    const targetUser = await User.findById(followingId);
+
+    if (!user || !targetUser) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+
+    const isFollowing = user.following.includes(followingId);
+
+    if (isFollowing) {
+      await Promise.all([
+        user.updateOne({ $pull: { following: followingId } }),
+        targetUser.updateOne({ $pull: { followers: followerId } }),
+      ]);
+      return res.status(200).json({
+        message: "Unfollowed successfully",
+        success: true,
+      });
+    } else {
+      await Promise.all([
+        user.updateOne({ $push: { following: followingId } }),
+        targetUser.updateOne({ $push: { followers: followerId } }),
+      ]);
+      return res.status(200).json({
+        message: "Followed successfully",
+        success: true,
+      });
+    }
+  } catch (error) {
+    console.error("Follow or unfollow error:", error);
+    res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
+  }
+};
