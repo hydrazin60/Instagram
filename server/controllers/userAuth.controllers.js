@@ -1,5 +1,5 @@
 import User from "../models/user.model.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getdataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
@@ -27,7 +27,7 @@ export const Register = async (req, res) => {
     });
     res
       .status(200)
-      .json({ message: "User created successfully", success: true });
+      .json({ message: "Account created successfully", success: true });
   } catch (error) {
     console.log(error);
   }
@@ -108,7 +108,7 @@ export const LogOut = async (req, res) => {
 export const getProfile = async (req, res) => {
   try {
     const userId = req.params.id;
-    let user = await User.findById(userId);
+    let user = await User.findById(userId).select("-password");
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -129,43 +129,45 @@ export const getProfile = async (req, res) => {
   }
 };
 
-export const updateProfile = async (req, res) => {
-  try {
-    const userId = req.id;
-    const { bio, gender } = req.body;
-    const profilePic = req.file;
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-        success: false,
-      });
-    }
-    if (bio) {
-      user.bio = bio;
-    }
-    if (gender) {
-      user.gender = gender;
-    }
-    if (profilePic) {
-      const fileUri = getDataUri(profilePic);
-      const cloudResponse = await cloudinary.uploader.upload(fileUri);
-      user.profilePic = cloudResponse.secure_url;
-    }
-    await user.save();
-    res.status(200).json({
-      message: "Profile updated successfully",
-      success: true,
-      data: user,
-    });
-  } catch (error) {
-    console.error("Profile update error:", error);
-    res.status(500).json({
-      message: "Internal server error",
-      success: false,
-    });
-  }
-};
+// export const updateProfile = async (req, res) => {
+//   try {
+//     const userId = req.id;
+//     const { bio, gender } = req.body;
+//     const profilePic = req.file;
+//     const user = await User.findById(userId);
+//     console.log( "userId is ",userId);
+
+//     if (!user) {
+//       return res.status(404).json({
+//         message: "User not found",
+//         success: false,
+//       });
+//     }
+//     if (bio) {
+//       user.bio = bio;
+//     }
+//     if (gender) {
+//       user.gender = gender;
+//     }
+//     if (profilePic) {
+//       const fileUri = getDataUri(profilePic);
+//       const cloudResponse = await cloudinary.uploader.upload(fileUri);
+//       user.profilePic = cloudResponse.secure_url;
+//     }
+//     await user.save();
+//     res.status(200).json({
+//       message: "Profile updated successfully",
+//       success: true,
+//       data: user,
+//     });
+//   } catch (error) {
+//     console.error("Profile update error:", error);
+//     res.status(500).json({
+//       message: "Internal server error",
+//       success: false,
+//     });
+//   }
+// };
 // export const updateProfile = async (req, res) => {
 //   try {
 //     const userId = req.id;
@@ -207,6 +209,52 @@ export const updateProfile = async (req, res) => {
 //     });
 //   }
 // };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.userId; // Use req.userId to match the middleware
+    const { bio, gender } = req.body;
+    const profilePic = req.file;
+
+    // Log userId to ensure it's being correctly set
+    console.log("userId is", userId);
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+
+    if (bio) {
+      user.bio = bio;
+    }
+    if (gender) {
+      user.gender = gender;
+    }
+    if (profilePic) {
+      const fileUri = getDataUri(profilePic);
+      const cloudResponse = await cloudinary.uploader.upload(fileUri);
+      user.profilePic = cloudResponse.secure_url;
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    console.error("Profile update error:", error);
+    res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
+  }
+};
 
 export const getSuggesteduser = async (req, res) => {
   try {

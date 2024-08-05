@@ -69,7 +69,7 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
       enum: ["male", "female", "other"],
-      default: "male", // Provide a default value
+      default: "other", // Provide a default value
     },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
@@ -87,4 +87,5 @@ userSchema.index({ username: 1 });
 userSchema.index({ followers: 1 });
 userSchema.index({ following: 1 });
 
-export const User = mongoose.model("User", userSchema);
+ const User = mongoose.model("User", userSchema);
+export default User
