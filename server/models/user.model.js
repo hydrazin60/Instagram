@@ -87,5 +87,5 @@ userSchema.index({ username: 1 });
 userSchema.index({ followers: 1 });
 userSchema.index({ following: 1 });
 
- const User = mongoose.model("User", userSchema);
-export default User
+const User = mongoose.model("User", userSchema);
+export default User;
