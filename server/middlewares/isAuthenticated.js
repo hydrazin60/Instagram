@@ -2,8 +2,7 @@ import jwt from "jsonwebtoken";
 const isAuthenticated = async (req, res, next) => {
   try {
     const token = req.cookies?.token;
-    console.log( "token is" ,  token);
-    
+
     if (!token) {
       return res
         .status(401)
@@ -17,6 +16,7 @@ const isAuthenticated = async (req, res, next) => {
         .json({ message: "Unauthorized access", success: false });
     }
     req.id = decoded.userId;
+
     next();
   } catch (error) {
     console.error("isAuthenticated error:", error);

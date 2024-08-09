@@ -22,11 +22,10 @@ app.use(urlencoded({ extended: true }));
 app.use("/api/v1/users", Userrouter);
 
 app.listen(PORT, () => console.log(`Server Running on PORT ${PORT}`));
-
 mongoose
   .connect(process.env.MONGODBURI)
   .then(() => {
-    console.log("MongoDB DataBase is  connected hd");
+    console.log("MongoDB DataBase is  connected");
   })
   .catch((err) => {
     console.log(err);

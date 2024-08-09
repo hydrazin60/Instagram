@@ -283,44 +283,66 @@ export const getSuggesteduser = async (req, res) => {
 
 export const followOrUnfollow = async (req, res) => {
   try {
-    const followerId = req.body.follower; // ID of the user who is following/unfollowing
-    const followingId = req.params.id; // ID of the user to be followed/unfollowed
+    const FollowKarneWallaId = req.id;
+    const JiskoFollowKarungaId = req.params.id;
 
-    if (followerId === followingId) {
+    if (FollowKarneWallaId === JiskoFollowKarungaId) {
       return res.status(400).json({
         message: "You can't follow yourself",
         success: false,
       });
     }
 
-    const user = await User.findById(followerId);
-    const targetUser = await User.findById(followingId);
+    const user = await User.findById(FollowKarneWallaId);
+    const targetUser = await User.findById(JiskoFollowKarungaId);
 
-    if (!user || !targetUser) {
+    if (!user) {
+      return res.status(404).json({
+        message: "Your profile not found! Please log in again",
+        success: false,
+      });
+    }
+    if (!targetUser) {
       return res.status(404).json({
         message: "User not found",
         success: false,
       });
     }
 
-    const isFollowing = user.following.includes(followingId);
+    const ifFollowing = user.followers.includes(JiskoFollowKarungaId);
 
-    if (isFollowing) {
+    if (ifFollowing) {
       await Promise.all([
-        user.updateOne({ $pull: { following: followingId } }),
-        targetUser.updateOne({ $pull: { followers: followerId } }),
+        User.findByIdAndUpdate(
+          FollowKarneWallaId,
+          { $pull: { followers: JiskoFollowKarungaId } },
+          { new: true }
+        ),
+        User.findByIdAndUpdate(
+          JiskoFollowKarungaId,
+          { $pull: { following: FollowKarneWallaId } },
+          { new: true }
+        ),
       ]);
-      return res.status(200).json({
-        message: "Unfollowed successfully",
+      res.status(200).json({
+        message: `${targetUser.username} unfollowed successfully`,
         success: true,
       });
     } else {
       await Promise.all([
-        user.updateOne({ $push: { following: followingId } }),
-        targetUser.updateOne({ $push: { followers: followerId } }),
+        User.findByIdAndUpdate(
+          FollowKarneWallaId,
+          { $push: { followers: JiskoFollowKarungaId } },
+          { new: true }
+        ),
+        User.findByIdAndUpdate(
+          JiskoFollowKarungaId,
+          { $push: { following: FollowKarneWallaId } },
+          { new: true }
+        ),
       ]);
-      return res.status(200).json({
-        message: "Followed successfully",
+      res.status(200).json({
+        message: `${targetUser.username} followed successfully`,
         success: true,
       });
     }
