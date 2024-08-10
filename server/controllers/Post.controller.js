@@ -3,6 +3,7 @@ import Post from "../models/post.model.js";
 import cloudinary from "../utils/cloudinary.js";
 import User from "../models/user.model.js";
 import streamifier from "streamifier";
+import Comment from "../models/comment.model.js";
 
 export const addNewPost = async (req, res) => {
   try {
@@ -49,6 +50,55 @@ export const addNewPost = async (req, res) => {
       }
     );
     streamifier.createReadStream(optimizedImageBuffer).pipe(uploadStream);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server error",
+      error: true,
+    });
+  }
+};
+
+export const getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find()
+      .sort({ createdAt: -1 })
+      .populate({ path: "author", select: "username profilePic" })
+      .populate({
+        path: "comments",
+        sort: { createdAt: -1 },
+        populate: { path: "author", select: "username profilePic" },
+      });
+    res.status(200).json({
+      message: "Posts fetched successfully",
+      success: true,
+      data: posts,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server error",
+      error: true,
+    });
+  }
+};
+
+export const getSinglePost = async (req, res) => {
+  try {
+    const autherId = req.id;
+    const posts = await Post.find({ author: autherId })
+      .sort({ createdAt: -1 })
+      .populate({ path: "author", select: "username , profilePic" })
+      .populate({
+        path: "comments",
+        sort: { createdAt: -1 },
+        populate: { path: "author", select: "username , profilePic" },
+      });
+    res.status(200).json({
+      message: "Posts fetched successfully",
+      success: true,
+      data: posts,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
