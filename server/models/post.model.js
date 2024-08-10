@@ -69,4 +69,6 @@ const postSchema = new mongoose.Schema(
 postSchema.index({ author: 1 });
 postSchema.index({ likes: 1 });
 
-export const Post = mongoose.model("Post", postSchema);
+const Post = mongoose.model("Post", postSchema);
+
+export default Post;

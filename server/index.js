@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Userrouter from "./routes/user.route.js";
+import postroute from "./routes/post.route.js";
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ app.use(urlencoded({ extended: false }));
 
 //user routes
 app.use("/api/v1/users", Userrouter);
+app.use("/api/v1/user/post" , postroute)
 
 app.listen(PORT, () => console.log(`Server Running on PORT ${PORT}`));
 mongoose

@@ -134,7 +134,7 @@ export const updateProfile = async (req, res) => {
     const userId = req.id;
     const { bio, gender } = req.body;
     const profilePic = req.file;
-    console.log("userId is", userId);
+    
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
