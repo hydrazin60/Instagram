@@ -112,8 +112,6 @@ export const LikePost = async (req, res) => {
   try {
     const likeKarneWalaUser = req.id;
     const postId = req.params.id;
-    console.log(postId);
-
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({
@@ -141,7 +139,7 @@ export const LikePost = async (req, res) => {
 export const dislikePost = async (req, res) => {
   try {
     const dislikeKarneWalaUser = req.id;
-    const postId = req.param.id;
+    const postId = req.params.id;
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({
@@ -169,6 +167,12 @@ export const addComment = async (req, res) => {
     const postId = req.params.id;
     const commentKarneWalaUser = req.id;
     const { text } = req.body;
+    if (!text) {
+      return res.status(400).json({
+        message: "Text is required",
+        error: true,
+      });
+    }
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({
@@ -176,19 +180,15 @@ export const addComment = async (req, res) => {
         error: true,
       });
     }
-    if (!text) {
-      return res.status(404).json({
-        message: "text is required",
-        error: true,
-      });
-    }
-    const comment = await Comment.create({
+    let comment = await Comment.create({
       text,
       author: commentKarneWalaUser,
       post: postId,
-    }).populate({
+    });
+
+    comment = await comment.populate({
       path: "author",
-      select: "username , profilePic",
+      select: "username profilePic",
     });
     post.comments.push(comment._id);
     await post.save();
