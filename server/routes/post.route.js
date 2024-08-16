@@ -4,6 +4,7 @@ import isAuthenticated from "../middlewares/isAuthenticated.js";
 import {
   addComment,
   addNewPost,
+  deletePost,
   dislikePost,
   getAllPosts,
   getCommentsofPost,
@@ -23,6 +24,7 @@ postroute.route("/get-singlrPost").get(isAuthenticated, getSingleUserALlPost);
 postroute.route("/like/:id").get(isAuthenticated, LikePost);
 postroute.route("/dislike/:id").get(isAuthenticated, dislikePost);
 postroute.route("/comment/:id").post(isAuthenticated, addComment);
-postroute.route("/get_all/comment/:id").get(isAuthenticated , getCommentsofPost)
+postroute.route("/get_all/comment/:id").get(isAuthenticated, getCommentsofPost);
+postroute.route("/delete_post/:id").delete(isAuthenticated, deletePost);
 
 export default postroute;
