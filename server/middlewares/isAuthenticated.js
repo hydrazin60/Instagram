@@ -8,7 +8,6 @@ const isAuthenticated = async (req, res, next) => {
         .status(401)
         .json({ message: "Unauthorized access", success: false });
     }
-
     const decoded = jwt.verify(token, process.env.JWT_SECRETKEY);
     if (!decoded) {
       return res
@@ -19,9 +18,10 @@ const isAuthenticated = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error("isAuthenticated error:", error);
+    console.log(error.message);
+
     res.status(500).json({
-      message: "Internal server error",
+      message: error.message,
       success: false,
     });
   }

@@ -65,6 +65,8 @@ export const Login = async (req, res) => {
       followers: user.followers,
       following: user.following,
       posts: user.posts,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     };
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRETKEY, {
       expiresIn: "360d",
@@ -134,7 +136,7 @@ export const updateProfile = async (req, res) => {
     const userId = req.id;
     const { bio, gender } = req.body;
     const profilePic = req.file;
-    
+
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
