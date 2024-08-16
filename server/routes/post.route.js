@@ -6,6 +6,7 @@ import {
   addNewPost,
   dislikePost,
   getAllPosts,
+  getCommentsofPost,
   getSingleUserALlPost,
   LikePost,
 } from "../controllers/Post.controller.js";
@@ -22,5 +23,6 @@ postroute.route("/get-singlrPost").get(isAuthenticated, getSingleUserALlPost);
 postroute.route("/like/:id").get(isAuthenticated, LikePost);
 postroute.route("/dislike/:id").get(isAuthenticated, dislikePost);
 postroute.route("/comment/:id").post(isAuthenticated, addComment);
+postroute.route("/get_all/comment/:id").get(isAuthenticated , getCommentsofPost)
 
 export default postroute;

@@ -206,16 +206,18 @@ export const addComment = async (req, res) => {
   }
 };
 
+ 
 export const getCommentsofPost = async (req, res) => {
   try {
     const postId = req.params.id;
-    comment = await Comment.find({ post: postId }).populate({
+    const comments = await Comment.find({ post: postId }).populate({
       path: "author",
-      select: "username , profilePic",
+      select: "username profilePic",
     });
-    if (!comment) {
+
+    if (comments.length === 0) {
       return res.status(404).json({
-        message: "Comment not found",
+        message: "No comments found for this post",
         error: true,
       });
     }
@@ -223,7 +225,7 @@ export const getCommentsofPost = async (req, res) => {
     return res.status(200).json({
       message: "Comments fetched successfully",
       success: true,
-      data: comment,
+      data: comments,
     });
   } catch (error) {
     console.log(error);
