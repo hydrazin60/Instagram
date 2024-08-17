@@ -206,7 +206,6 @@ export const addComment = async (req, res) => {
   }
 };
 
- 
 export const getCommentsofPost = async (req, res) => {
   try {
     const postId = req.params.id;
@@ -270,49 +269,6 @@ export const deletePost = async (req, res) => {
     });
   }
 };
-
-// export const Bookmarkpost = async (req, res) => {
-//   try {
-//     const postId = req.params.id;
-//     const autherId = req.id;
-//     const post = await Post.findById(postId);
-//     if (!post) {
-//       return res.status(404).json({
-//         message: "Post not found",
-//         error: true,
-//       });
-//     }
-
-//     const user = await User.findById(autherId);
-//     if (!user) {
-//       return res.status(404).json({
-//         message: "User not found",
-//         error: true,
-//       });
-//     }
-//     if (user.bookmarks.includes(post._id)) {
-//       await user.updateOne({ $pull: { bookmarks: post._id } });
-//       await user.save();
-//       return res.status(200).json({
-//         message: "Post unbookmarked successfully",
-//         success: true,
-//       });
-//     } else {
-//       await user.updateOne({ $addToSet: { bookmarks: post._id } });
-//       await user.save();
-//       return res.status(200).json({
-//         message: "Post bookmarked successfully",
-//         success: true,
-//       });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       message: "Internal server error",
-//       error: true,
-//     });
-//   }
-// };
 
 export const Bookmarkpost = async (req, res) => {
   try {

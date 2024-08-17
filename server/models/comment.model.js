@@ -38,11 +38,10 @@ const commentSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt fields
+    timestamps: true, 
   }
 );
 
-// Optional: Add indexes if needed for performance
 commentSchema.index({ post: 1 });
 commentSchema.index({ author: 1 });
 
