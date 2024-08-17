@@ -22,8 +22,8 @@ app.use(urlencoded({ extended: false }));
 
 //user routes
 app.use("/api/v1/users", Userrouter);
-app.use("/api/v1/user/post" , postroute)
-app.use("/api/v1/user/message" , messsageroute)
+app.use("/api/v1/user/post", postroute);
+app.use("/api/v1/user/message", messsageroute);
 
 app.listen(PORT, () => console.log(`Server Running on PORT ${PORT}`));
 mongoose
