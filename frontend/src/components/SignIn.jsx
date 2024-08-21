@@ -5,12 +5,11 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function SignUp() {
+export default function SignIn() {
   const navigate = useNavigate();
   const [loding, setLoding] = useState(false);
   const [input, setInput] = useState({
     email: "",
-    username: "",
     password: "",
   });
 
@@ -23,7 +22,7 @@ export default function SignUp() {
     try {
       setLoding(true);
       const res = await axios.post(
-        "http://localhost:4000/api/v1/users/register",
+        "http://localhost:4000/api/v1/users/login",
         input,
         {
           headers: {
@@ -33,13 +32,13 @@ export default function SignUp() {
         }
       );
       if (res.data.success) {
-        navigate("/sign-in");
+        navigate("/");
         toast.success(res.data.message);
         setInput({
           email: "",
-          username: "",
           password: "",
         });
+        console.log("Cookies after sign-in:", document.cookie);
       } else {
         toast.error(res.data.message);
       }
@@ -78,16 +77,6 @@ export default function SignUp() {
         </div>
         <div>
           <Input
-            placeholder="username"
-            type="text"
-            name="username"
-            value={input.username}
-            className="focus-visible:ring-transparent"
-            onChange={changeEventHandler}
-          />
-        </div>
-        <div>
-          <Input
             placeholder="Password"
             type="password"
             name="password"
@@ -96,9 +85,9 @@ export default function SignUp() {
             onChange={changeEventHandler}
           />
         </div>
-        <Button type="submit">{loding ? "Loading..." : "Sign Up"} </Button>
-        <span className="text-blue-600">
-          Already have an account? <Link to="/sign-in"> Login </Link>
+        <Button type="submit">{loding ? "Loading..." : "login"} </Button>
+        <span className="text-blue-500">
+          Don't have an account?<Link to="/sign-up">Sign up</Link>{" "}
         </span>
       </form>
     </div>
