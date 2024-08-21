@@ -32,6 +32,7 @@ export const Register = async (req, res) => {
     console.log(error);
   }
 };
+ 
 
 export const Login = async (req, res) => {
   try {
