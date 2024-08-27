@@ -57,7 +57,7 @@ export default function SignIn() {
     <div className="flex items-center w-screen h-screen justify-center">
       <form
         onSubmit={signupHandler}
-        className="shadow-lg flex flex-col gap-5 p-3 rounded-xl w-1/3 bg-slate-50"
+        className="shadow-lg flex flex-col gap-5 p-3 rounded-xl w-1/4   bg-slate-50"
       >
         <div className="my-4">
           <h1 className="text-3xl font-bold text-center">Instagram</h1>
@@ -78,7 +78,7 @@ export default function SignIn() {
             type="password"
             name="password"
             value={input.password}
-            className="focus-visible:ring-transparent my-3"
+            className="focus-visible:ring-transparent my-1"
             onChange={changeEventHandler}
           />
         </div>

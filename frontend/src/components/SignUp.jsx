@@ -58,7 +58,7 @@ export default function SignUp() {
     <div className="flex   w-screen h-screen  justify-center ">
       <form
         onSubmit={signupHandler}
-        className="shadow-lg flex flex-col gap-5  p-3 rounded-xl w-1/3 h-3/4 my-auto  bg-slate-50"
+        className="shadow-lg flex flex-col gap-5  p-3 rounded-xl w-1/4 h-3/4 my-auto  bg-slate-50"
       >
         <div className="my-4 text-center ">
           <h1 className="text-3xl font-bold text-center">Instagram</h1>

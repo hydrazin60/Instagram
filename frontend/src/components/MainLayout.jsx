@@ -1,10 +1,10 @@
 import React from "react";
-import Sidbar from "./Sidbar";
+import LeftSidebar from "./LeftSidebar";
  
 function MainLayout() {
   return (
     <div>
-      <Sidbar />
+      <LeftSidebar />
     </div>
   );
 }

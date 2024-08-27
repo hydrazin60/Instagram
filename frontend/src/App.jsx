@@ -5,7 +5,7 @@ import SignUp from "./components/SignUp";
 import Home from "./components/Home";
 import MainLayout from "./components/MainLayout";
 import Profile from "./components/Profile";
-import Sidbar from "./components/Sidbar";
+import LeftSidebar from "./components/LeftSidebar";
 
 export default function App() {
   return (
@@ -16,7 +16,7 @@ export default function App() {
             path="/"
             element={
               <div>
-                <Sidbar />
+                <LeftSidebar />
                 <Home />
               </div>
             }
@@ -25,7 +25,7 @@ export default function App() {
             path="/profile"
             element={
               <div>
-                <Sidbar />
+                <LeftSidebar />
                 <Profile />
               </div>
             }
