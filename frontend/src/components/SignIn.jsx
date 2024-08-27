@@ -57,13 +57,10 @@ export default function SignIn() {
     <div className="flex items-center w-screen h-screen justify-center">
       <form
         onSubmit={signupHandler}
-        className="shadow-lg flex flex-col gap-5 p-8"
+        className="shadow-lg flex flex-col gap-5 p-3 rounded-xl w-1/3 bg-slate-50"
       >
         <div className="my-4">
           <h1 className="text-3xl font-bold text-center">Instagram</h1>
-          <p className="font-bold text-zinc-500">
-            Signup to see photos and videos from your friends
-          </p>
         </div>
         <div>
           <Input
@@ -71,7 +68,7 @@ export default function SignIn() {
             type="email"
             name="email"
             value={input.email}
-            className="focus-visible:ring-transparent"
+            className="focus-visible:ring-transparent my-3"
             onChange={changeEventHandler}
           />
         </div>
@@ -81,13 +78,16 @@ export default function SignIn() {
             type="password"
             name="password"
             value={input.password}
-            className="focus-visible:ring-transparent"
+            className="focus-visible:ring-transparent my-3"
             onChange={changeEventHandler}
           />
         </div>
         <Button type="submit">{loding ? "Loading..." : "login"} </Button>
-        <span className="text-blue-500">
-          Don't have an account?<Link to="/sign-up">Sign up</Link>{" "}
+        <span>
+          Don't have an account?
+          <Link to="/sign-up">
+            <span className="text-blue-500"> Sign up</span>
+          </Link>
         </span>
       </form>
     </div>

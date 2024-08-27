@@ -55,12 +55,12 @@ export default function SignUp() {
     }
   };
   return (
-    <div className="flex items-center w-screen h-screen justify-center">
+    <div className="flex   w-screen h-screen  justify-center ">
       <form
         onSubmit={signupHandler}
-        className="shadow-lg flex flex-col gap-5 p-8"
+        className="shadow-lg flex flex-col gap-5  p-3 rounded-xl w-1/3 h-3/4 my-auto  bg-slate-50"
       >
-        <div className="my-4">
+        <div className="my-4 text-center ">
           <h1 className="text-3xl font-bold text-center">Instagram</h1>
           <p className="font-bold text-zinc-500">
             Signup to see photos and videos from your friends
@@ -72,7 +72,7 @@ export default function SignUp() {
             type="email"
             name="email"
             value={input.email}
-            className="focus-visible:ring-transparent"
+            className="focus-visible:ring-transparent my-2"
             onChange={changeEventHandler}
           />
         </div>
@@ -82,7 +82,7 @@ export default function SignUp() {
             type="text"
             name="username"
             value={input.username}
-            className="focus-visible:ring-transparent"
+            className="focus-visible:ring-transparent my-2"
             onChange={changeEventHandler}
           />
         </div>
@@ -92,13 +92,16 @@ export default function SignUp() {
             type="password"
             name="password"
             value={input.password}
-            className="focus-visible:ring-transparent"
+            className="focus-visible:ring-transparent my-2"
             onChange={changeEventHandler}
           />
         </div>
         <Button type="submit">{loding ? "Loading..." : "Sign Up"} </Button>
-        <span className="text-blue-600">
-          Already have an account? <Link to="/sign-in"> Login </Link>
+        <span>
+          Already have an account?
+          <Link to="/sign-in">
+            <span className="text-blue-600"> Login </span>
+          </Link>
         </span>
       </form>
     </div>
