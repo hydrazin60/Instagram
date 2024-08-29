@@ -42,7 +42,10 @@ export default function SignIn() {
 
         <div className="flex flex-col items-center gap-5">
           <span className="text-blue-900 text-sm font-bold flex items-center gap-2">
-          <span className="text-xl">   <FaFacebookSquare   /></span>
+            <span className="text-xl">
+              {" "}
+              <FaFacebookSquare />
+            </span>
             Login in With Facebook
           </span>
           <span className="text-xs">Forgot Password?</span>

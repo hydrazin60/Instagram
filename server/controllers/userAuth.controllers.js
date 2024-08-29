@@ -4,18 +4,48 @@ import jwt from "jsonwebtoken";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 
+// export const Register = async (req, res) => {
+//   try {
+//     const { username, email, password, fullName } = req.body;
+//     if (!username || !email || !password || !fullName) {
+//       return res
+//         .status(401)
+//         .json({ message: "All fields are required", success: false });
+//     }
+//     const LoginUser = await User.findOne({ email });
+//     if (LoginUser) {
+//       return res.status(401).json({
+//         message: "User already exists! Try different email ",
+//         success: false,
+//       });
+//     }
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     await User.create({
+//       username,
+//       email,
+//       password: hashedPassword,
+//       fullName,
+//     });
+//     res
+//       .status(200)
+//       .json({ message: "Account created successfully", success: true });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 export const Register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
+    const { username, email, password, fullName } = req.body;
+    if (!username || !email || !password || !fullName) {
       return res
         .status(401)
         .json({ message: "All fields are required", success: false });
     }
-    const LoginUser = await User.findOne({ email });
-    if (LoginUser) {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(401).json({
-        message: "User already exists! Try different email ",
+        message: "User already exists with this email. Try a different email.",
         success: false,
       });
     }
@@ -24,15 +54,25 @@ export const Register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      fullName,
     });
     res
       .status(200)
       .json({ message: "Account created successfully", success: true });
   } catch (error) {
     console.log(error);
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: "Username already taken. Try a different username.",
+        success: false,
+      });
+    }
+    res.status(500).json({
+      message: "An error occurred. Please try again later.",
+      success: false,
+    });
   }
 };
- 
 
 export const Login = async (req, res) => {
   try {
