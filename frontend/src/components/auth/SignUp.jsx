@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
 export default function SignUp() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -12,69 +13,16 @@ export default function SignUp() {
     fullName: "",
     username: "",
   });
-
   const [loading, setLoading] = useState(false);
   const [error, seterror] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  // const FormsignUphendler = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     if (formData.password !== formData.confirmPassword) {
-  //       seterror(true);
-  //       setTimeout(() => {
-  //         seterror(false);
-  //       }, 3000);
-  //       toast.error("Passwords do not match", {
-  //         position: "bottom-right",
-  //         duration: 3000,
-  //         style: {
-  //           border: "1px solid #f44336",
-  //           background: "#ffebee",
-  //           color: "#f44336",
-  //         },
-  //       });
-  //       return;
-  //     }
-  //     seterror(false);
-  //     const res = await axios.post(
-  //       "http://localhost:4000/api/v1/users/register",
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         withCredentials: true,
-  //       }
-  //     );
-
-  //     if (res.data.success) {
-  //       toast.success(res.data.message , {
-  //         position: "bottom-right",
-  //         duration: 3000,
-  //         style: {
-  //           border: "1px solid #4caf50",
-  //           background: "#e8f5e9",
-  //           color: "#4caf50",
-  //         },
-  //       });
-  //     } else {
-  //       toast.error(res.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Profile fetch error:", error);
-  //     toast.error(error.response?.data?.message || "An error occurred");
-  //   }
-  // };
-
   const FormsignUphendler = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (formData.password !== formData.confirmPassword) {
-      seterror(true);
       setTimeout(() => {
         seterror(false);
       }, 3000);
@@ -104,6 +52,7 @@ export default function SignUp() {
       );
 
       if (res.data.success) {
+        navigate("/sign-in");
         toast.success(res.data.message, {
           position: "bottom-right",
           duration: 3000,
@@ -257,7 +206,7 @@ export default function SignUp() {
             type="submit"
             className="bg-blue-500 w-full text-white py-2 rounded-lg hover:bg-blue-600"
           >
-            Sign up
+            {loading ? "Loading..." : "Sign up"}
           </Button>
         </div>
       </form>

@@ -1,13 +1,132 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaFacebookSquare } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "sonner";
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const handelChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     setLoading(true);
+  //     const res = await axios.post(
+  //       "http://localhost:4000/api/v1/users/login",
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     if (res.data.sucess) {
+  //       navigate("/");
+  //       toast.success(res.data.message, {
+  //         position: "bottom-right",
+  //         duration: 3000,
+  //         style: {
+  //           border: "1px solid #4caf50",
+  //           background: "#e8f5e9",
+  //           color: "#4caf50",
+  //         },
+  //       });
+  //     } else {
+  //       toast.error(res.data.message, {
+  //         position: "bottom-right",
+  //         duration: 3000,
+  //         style: {
+  //           border: "1px solid #00ff00",
+  //           background: "#DDEDDA",
+  //           color: "#000000",
+  //           fontSize: "16px",
+  //         },
+  //       });
+  //     }
+  //   } catch (err) {
+  //     console.log("signIn error", err);
+  //     toast.error("An error occurred. Please try again.", {
+  //       position: "bottom-right",
+  //       duration: 3000,
+  //       style: {
+  //         border: "1px solid #f44336",
+  //         background: "#ffebee",
+  //         color: "#f44336",
+  //       },
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/users/login",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+  
+     
+      if (res.data.success) {
+        navigate("/");  
+        toast.success(res.data.message, {
+          position: "bottom-right",
+          duration: 3000,
+          style: {
+            border: "1px solid #4caf50",
+            background: "#e8f5e9",
+            color: "#4caf50",
+          },
+        });
+      } else {
+        toast.error(res.data.message, {
+          position: "bottom-right",
+          duration: 3000,
+          style: {
+            border: "1px solid #f44336",
+            background: "#ffebee",
+            color: "#f44336",
+          },
+        });
+      }
+    } catch (err) {
+      console.error("SignIn error", err);
+      toast.error("An error occurred. Please try again.", {
+        position: "bottom-right",
+        duration: 3000,
+        style: {
+          border: "1px solid #f44336",
+          background: "#ffebee",
+          color: "#f44336",
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   return (
     <div className="flex justify-center flex-col items-center gap-4 m-8">
-      <form className="shadow-md rounded px-8 pt-6 pb-8  bg-white border border-gray-300 max-w-sm w-full">
+      <form
+        onSubmit={handleSubmit}
+        className="shadow-md rounded px-8 pt-6 pb-8  bg-white border border-gray-300 max-w-sm w-full"
+      >
         <div className="my-4 flex flex-col items-center gap-4 mb-12">
           <h1 className="instagram-logo text-5xl text-zinc-700 ">Instagram</h1>
         </div>
@@ -18,6 +137,9 @@ export default function SignIn() {
               name="email"
               placeholder="Mobile Number or Email"
               className="focus-visible:ring-transparent bg-slate-100 w-full py-2 px-4  border border-gray-300"
+              value={formData.email}
+              required
+              onChange={handelChange}
             />
           </div>
           <div className="mb-4">
@@ -26,11 +148,17 @@ export default function SignIn() {
               name="password"
               placeholder="Password"
               className="focus-visible:ring-transparent bg-slate-100 w-full py-2 px-4 border border-gray-300"
+              value={formData.password}
+              required
+              onChange={handelChange}
             />
           </div>
         </div>
         <div>
-          <Button className="bg-blue-500 w-full text-white py-2 rounded-lg hover:bg-blue-600">
+          <Button
+            type="submit"
+            className="bg-blue-500 w-full text-white py-2 rounded-lg hover:bg-blue-600"
+          >
             Log in
           </Button>
         </div>
