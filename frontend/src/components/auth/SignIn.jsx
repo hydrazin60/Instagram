@@ -81,10 +81,9 @@ export default function SignIn() {
           withCredentials: true,
         }
       );
-  
-     
+
       if (res.data.success) {
-        navigate("/");  
+        navigate("/");
         toast.success(res.data.message, {
           position: "bottom-right",
           duration: 3000,
@@ -105,9 +104,9 @@ export default function SignIn() {
           },
         });
       }
-    } catch (err) {
-      console.error("SignIn error", err);
-      toast.error("An error occurred. Please try again.", {
+    } catch (error) {
+      console.error("SignIn error", error);
+      toast.error(error.response?.data?.message, {
         position: "bottom-right",
         duration: 3000,
         style: {
@@ -120,7 +119,7 @@ export default function SignIn() {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="flex justify-center flex-col items-center gap-4 m-8">
       <form
@@ -159,7 +158,7 @@ export default function SignIn() {
             type="submit"
             className="bg-blue-500 w-full text-white py-2 rounded-lg hover:bg-blue-600"
           >
-            Log in
+            {loading ? "Loading..." : "Sign In"}
           </Button>
         </div>
         <div className="flex items-center w-full my-5">

@@ -21,8 +21,8 @@ export default function SignUp() {
   };
   const FormsignUphendler = async (e) => {
     e.preventDefault();
-    setLoading(true);
     if (formData.password !== formData.confirmPassword) {
+      seterror(true);
       setTimeout(() => {
         seterror(false);
       }, 3000);
@@ -40,6 +40,7 @@ export default function SignUp() {
 
     setLoading(true);
     try {
+      setLoading(true);
       const res = await axios.post(
         "http://localhost:4000/api/v1/users/register",
         formData,

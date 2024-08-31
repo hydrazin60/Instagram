@@ -56,9 +56,7 @@ export const Register = async (req, res) => {
       password: hashedPassword,
       fullName,
     });
-    res
-      .status(200)
-      .json({ message: "Account created successfully", success: true });
+    res.status(200).json({ message: `Welcome ${fullName}`, success: true });
   } catch (error) {
     console.log(error);
     if (error.code === 11000) {
