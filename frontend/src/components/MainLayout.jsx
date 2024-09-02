@@ -1,12 +1,10 @@
-import React from 'react'
+import React from "react";
+import LeftSidbar from "./LeftSidbar";
 
-function MainLayout() {
+export default function MainLayout() {
   return (
     <div>
-      MainLayout
-      MainLayout
+      <LeftSidbar />
     </div>
-  )
+  );
 }
-
-export default MainLayout

@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+ 
 .instagram-logo {
   font-family: "Lobster", cursive; /* Using Lobster font as an alternative */
 }
