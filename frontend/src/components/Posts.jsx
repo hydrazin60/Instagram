@@ -6,6 +6,5 @@ export default function Posts() {
      {
         [1,2,3,4,5].map((item)=> <Post key={item}/>)
      }
-    
     </div>;
 }

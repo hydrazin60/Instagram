@@ -90,12 +90,12 @@ export default function LeftSidbar() {
         >
           Instagram
         </h1>
-        <div className="flex flex-col lg:gap-3  ">
+        <div className="flex flex-col lg:gap-3   ">
           {sideBarIcons.map((item, index) => (
             <div
               onClick={() => SidebarHandler(item.name)}
               key={index}
-              className="flex items-center relative   cursor-pointer rounded-lg p-3 gap-3 text-lg lg:text-xl font-semibold "
+              className="flex items-center relative hover:bg-gray-200   cursor-pointer rounded-lg p-3 gap-3 text-lg lg:text-xl font-semibold "
             >
               {item.icon}
               <span>{item.name}</span>

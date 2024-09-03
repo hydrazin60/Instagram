@@ -21,15 +21,23 @@ export default function Post() {
       setCommentText("");
     }
   };
+
+  const sendMessageHendler = async (e) => {
+    alert(commentText);
+    setCommentText("");
+  };
+
+  const pp =
+    "https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/360085714_1616525928846282_1033599316022958055_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=HkTVxCyjCLgQ7kNvgHQA-c8&_nc_ht=scontent.fktm21-1.fna&_nc_gid=Ab_rUsNVOGjCxF_XL6NA0NV&oh=00_AYCjtgE5ANcIDxFGQsbWvmNbEITdIjOdpFaV5i84UYFdKg&oe=66D89F7D";
   return (
-    <div className="my-8 w-full max-w-sm mx-auto">
+    <div className="my-8 w-full max-w-sm mx-auto ">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src="" alt="post_image" />
+            <AvatarImage src={pp} alt="post_image" />
             <AvatarFallback>JP</AvatarFallback>
           </Avatar>
-          <h1> UserName </h1>
+          <h1 className="font-semibold text-sm">Jiban Pandey</h1>
         </div>
         <Dialog>
           <DialogTrigger asChild>
@@ -51,11 +59,13 @@ export default function Post() {
           </DialogContent>
         </Dialog>
       </div>
-      <img
-        src="https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/360085714_1616525928846282_1033599316022958055_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=HkTVxCyjCLgQ7kNvgHQA-c8&_nc_ht=scontent.fktm21-1.fna&_nc_gid=Ab_rUsNVOGjCxF_XL6NA0NV&oh=00_AYCjtgE5ANcIDxFGQsbWvmNbEITdIjOdpFaV5i84UYFdKg&oe=66D89F7D"
-        alt="post_image"
-        className="rounded-md my-2 w-full aspect-square object-cover"
-      />
+      <div className=" border-2  ">
+        <img
+          src="https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/360085714_1616525928846282_1033599316022958055_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=HkTVxCyjCLgQ7kNvgHQA-c8&_nc_ht=scontent.fktm21-1.fna&_nc_gid=Ab_rUsNVOGjCxF_XL6NA0NV&oh=00_AYCjtgE5ANcIDxFGQsbWvmNbEITdIjOdpFaV5i84UYFdKg&oe=66D89F7D"
+          alt="post_image"
+          className="rounded-md  w-full aspect-square object-cover"
+        />
+      </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <FaRegHeart className="text-2xl cursor-pointer hover:text-zinc-600 " />
@@ -73,11 +83,11 @@ export default function Post() {
         <span className=" text-sm font-medium block mb-2 ">1k likes</span>
         <p>
           <span className="text-sm font-medium mr-2">Username</span>
-          caption
+          <span className="text-sm">caption i am jiban pandey</span>
         </p>
         <span
           onClick={() => setOpenCommentBox(!openCommentBox)}
-          className="cursor-pointer"
+          className="cursor-pointer text-sm   text-gray-500 "
         >
           View all 100 comments
         </span>
@@ -93,7 +103,11 @@ export default function Post() {
             placeholder="Add a comment..."
             className="w-full text-sm border-none focus:outline-none"
           />
-          {commentText && <span className="text-[#3BADF8]">Post</span>}
+          {commentText && (
+            <button className="text-[#3BADF8]" onClick={sendMessageHendler}>
+              Post
+            </button>
+          )}
         </div>
       </div>
     </div>
