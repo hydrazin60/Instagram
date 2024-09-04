@@ -5,68 +5,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaFacebookSquare } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "@/redux/authSlice";
 
 export default function SignIn() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const handelChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     setLoading(true);
-  //     const res = await axios.post(
-  //       "http://localhost:4000/api/v1/users/login",
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         withCredentials: true,
-  //       }
-  //     );
-  //     if (res.data.sucess) {
-  //       navigate("/");
-  //       toast.success(res.data.message, {
-  //         position: "bottom-right",
-  //         duration: 3000,
-  //         style: {
-  //           border: "1px solid #4caf50",
-  //           background: "#e8f5e9",
-  //           color: "#4caf50",
-  //         },
-  //       });
-  //     } else {
-  //       toast.error(res.data.message, {
-  //         position: "bottom-right",
-  //         duration: 3000,
-  //         style: {
-  //           border: "1px solid #00ff00",
-  //           background: "#DDEDDA",
-  //           color: "#000000",
-  //           fontSize: "16px",
-  //         },
-  //       });
-  //     }
-  //   } catch (err) {
-  //     console.log("signIn error", err);
-  //     toast.error("An error occurred. Please try again.", {
-  //       position: "bottom-right",
-  //       duration: 3000,
-  //       style: {
-  //         border: "1px solid #f44336",
-  //         background: "#ffebee",
-  //         color: "#f44336",
-  //       },
-  //     });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -81,8 +31,9 @@ export default function SignIn() {
           withCredentials: true,
         }
       );
-
+      console.log();
       if (res.data.success) {
+        dispatch(setAuthUser(res.data.userData));
         navigate("/");
         toast.success(res.data.message, {
           position: "bottom-right",

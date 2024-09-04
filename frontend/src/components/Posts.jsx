@@ -1,10 +1,17 @@
 import React from "react";
 import Post from "./Post";
+import { useSelector } from "react-redux";
 
 export default function Posts() {
-  return <div>
-     {
-        [1,2,3,4,5].map((item)=> <Post key={item}/>)
-     }
-    </div>;
+  const posts = useSelector((state) => state.post.posts);
+  if (!Array.isArray(posts)) {
+    return <div>No posts available.</div>;
+  }
+  return (
+    <div>
+      {posts.map((post) => (
+        <Post key={post._id} post={post}  />
+      ))}
+    </div>
+  );
 }

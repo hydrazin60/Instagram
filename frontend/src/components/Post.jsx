@@ -10,7 +10,7 @@ import { CiBookmark } from "react-icons/ci";
 import CommentDialog from "./CommentDialog";
 import { Input } from "./ui/input";
 
-export default function Post() {
+export default function Post({ post }) {
   const [openCommentBox, setOpenCommentBox] = useState(false);
   const [commentText, setCommentText] = useState("");
   const changeCommentEventHandler = (event) => {
@@ -34,7 +34,7 @@ export default function Post() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src={pp} alt="post_image" />
+            <AvatarImage src={post.author?.profilePic} alt="post_image" />
             <AvatarFallback>JP</AvatarFallback>
           </Avatar>
           <h1 className="font-semibold text-sm">Jiban Pandey</h1>
@@ -61,7 +61,7 @@ export default function Post() {
       </div>
       <div className=" border-2  ">
         <img
-          src="https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/360085714_1616525928846282_1033599316022958055_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=HkTVxCyjCLgQ7kNvgHQA-c8&_nc_ht=scontent.fktm21-1.fna&_nc_gid=Ab_rUsNVOGjCxF_XL6NA0NV&oh=00_AYCjtgE5ANcIDxFGQsbWvmNbEITdIjOdpFaV5i84UYFdKg&oe=66D89F7D"
+          src={post.image}
           alt="post_image"
           className="rounded-md  w-full aspect-square object-cover"
         />
@@ -80,10 +80,12 @@ export default function Post() {
         </div>
       </div>
       <div>
-        <span className=" text-sm font-medium block mb-2 ">1k likes</span>
+        <span className=" text-sm font-medium block mb-2 ">{post.likes}</span>
         <p>
-          <span className="text-sm font-medium mr-2">Username</span>
-          <span className="text-sm">caption i am jiban pandey</span>
+          <span className="text-sm font-medium mr-2">
+            {post.author?.username}
+          </span>
+          <span className="text-sm">{post.caption} </span>
         </p>
         <span
           onClick={() => setOpenCommentBox(!openCommentBox)}

@@ -1,64 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaHome } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { FaRegCompass } from "react-icons/fa";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { FaRegSquarePlus } from "react-icons/fa6";
-import { CgProfile } from "react-icons/cg";
 import { MdOndemandVideo } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
-const sideBarIcons = [
-  {
-    icon: <FaHome />,
-    name: "Home",
-  },
-  {
-    icon: <FaSearch />,
-    name: "Search",
-  },
-  {
-    icon: <FaRegCompass />,
-    name: "Explore",
-  },
-  {
-    icon: <MdOndemandVideo />,
-    name: "reels",
-  },
-  {
-    icon: <FaFacebookMessenger />,
-    name: "Messages",
-  },
-  {
-    icon: <FaHeart />,
-    name: "Notifications",
-  },
-  {
-    icon: <FaRegSquarePlus />,
-    name: "Create",
-  },
-  {
-    icon: <CgProfile />,
-    name: "Profile",
-  },
-  {
-    icon: <IoLogOut />,
-    name: "Logout",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { setAuthUser } from "@/redux/authSlice";
+import CreatePost from "./CreatePost.components";
 
 export default function LeftSidbar() {
   const navigate = useNavigate();
+  const { user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
   const LogoutHandler = async () => {
     try {
       const res = await axios.get("http://localhost:4000/api/v1/users/logout", {
         withCredentials: true,
       });
       if (res.data.success) {
+        dispatch(setAuthUser(null));
         navigate("/sign-in");
         toast.success(res.data.message);
       }
@@ -68,16 +37,63 @@ export default function LeftSidbar() {
     }
   };
 
+  const createHandlerPost = async () => {
+    setOpen(true);
+  };
+
+  const sideBarIcons = [
+    {
+      icon: <FaHome />,
+      name: "Home",
+    },
+    {
+      icon: <FaSearch />,
+      name: "Search",
+    },
+    {
+      icon: <FaRegCompass />,
+      name: "Explore",
+    },
+    {
+      icon: <MdOndemandVideo />,
+      name: "reels",
+    },
+    {
+      icon: <FaFacebookMessenger />,
+      name: "Messages",
+    },
+    {
+      icon: <FaHeart />,
+      name: "Notifications",
+    },
+    {
+      icon: <FaRegSquarePlus />,
+      name: "CreatePost",
+    },
+    {
+      icon: (
+        <Avatar className="cursor-pointer">
+          <AvatarImage src={user?.profilePic} alt=" user pp" />
+          <AvatarFallback>JP</AvatarFallback>
+        </Avatar>
+      ),
+      name: "Profile",
+    },
+    {
+      icon: <IoLogOut />,
+      name: "Logout",
+    },
+  ];
+
   const SidebarHandler = (name) => {
     if (name === "Logout") {
       if (window.confirm("Are you sure you want to logout?")) {
         LogoutHandler();
       }
-
-      console.log("Logout");
-    }
-    if (name === "Profile") {
-      navigate("/profile");
+    } else if (name === "Profile") {
+      navigate(`/profile`);
+    } else if (name === "CreatePost") {
+      createHandlerPost();
     }
   };
 
@@ -103,6 +119,7 @@ export default function LeftSidbar() {
           ))}
         </div>
       </div>
+      <CreatePost open={open} setOpen={setOpen} />
     </div>
   );
 }
