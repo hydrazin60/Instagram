@@ -80,7 +80,9 @@ export default function Post({ post }) {
         </div>
       </div>
       <div>
-        <span className=" text-sm font-medium block mb-2 ">{post.likes}</span>
+        <span className=" text-sm font-medium block mb-2 ">
+          {post.likes.length} liks
+        </span>
         <p>
           <span className="text-sm font-medium mr-2">
             {post.author?.username}
@@ -91,7 +93,7 @@ export default function Post({ post }) {
           onClick={() => setOpenCommentBox(!openCommentBox)}
           className="cursor-pointer text-sm   text-gray-500 "
         >
-          View all 100 comments
+          View all {post.comments.length} comments
         </span>
         <CommentDialog
           openCommentBox={openCommentBox}

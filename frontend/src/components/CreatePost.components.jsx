@@ -7,6 +7,7 @@ import { readFileAsDataUri } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export default function CreatePost({ open, setOpen }) {
   const imageRef = useRef();
@@ -14,6 +15,7 @@ export default function CreatePost({ open, setOpen }) {
   const [caption, setCaption] = React.useState("");
   const [imagePreview, setImagePreview] = React.useState(null);
   const [loding, setLoding] = React.useState(false);
+  const { user } = useSelector((state) => state.auth);
   const fileChangeHandler = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -58,6 +60,11 @@ export default function CreatePost({ open, setOpen }) {
     }
   };
 
+  const getInitials = (name) => {
+    const names = name.split(" ");
+    return names.length > 1 ? names[0][0] + names[1][0] : names[0][0];
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent onInteractOutside={() => setOpen(false)}>
@@ -67,11 +74,13 @@ export default function CreatePost({ open, setOpen }) {
         <hr className="border-slate-800" />
         <div className="flex gap-3 items-center">
           <Avatar>
-            <AvatarImage src="" alt="post image" />
-            <AvatarFallback>JD</AvatarFallback>
+            <AvatarImage src={user?.profilePic} alt="post image" />
+            <AvatarFallback className="font-semibold text-xl bg-zinc-500">
+              {getInitials(user?.username)}
+            </AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="font-semibold text-sm">Username</h1>
+            <h1 className="font-semibold text-sm">{user?.username}</h1>
             <span className="text-sm text-gray-600">Bio here...</span>
           </div>
         </div>

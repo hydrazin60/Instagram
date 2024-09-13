@@ -98,28 +98,30 @@ export default function LeftSidbar() {
   };
 
   return (
-    <div className="flex top-0 z-10 left-0 px-4 border-r border-gray-300 lg:w-[16%]    md:w-[22%] h-screen pt-10 ">
-      <div className="flex flex-col gap-4 ">
-        <h1
-          className="instagram-logo text-3xl text-zinc-700 cursor-pointer"
-          onClick={() => navigate("/")}
-        >
-          Instagram
-        </h1>
-        <div className="flex flex-col lg:gap-3   ">
-          {sideBarIcons.map((item, index) => (
-            <div
-              onClick={() => SidebarHandler(item.name)}
-              key={index}
-              className="flex items-center relative hover:bg-gray-200   cursor-pointer rounded-lg p-3 gap-3 text-lg lg:text-xl font-semibold "
-            >
-              {item.icon}
-              <span>{item.name}</span>
-            </div>
-          ))}
+    <div className="flex  top-0 z-10 left-0    lg:w-[16%]  md:w-[22%]        ">
+      <div className="h-full w-full border-r  border-gray-300 pt-10">
+        <div className="flex flex-col gap-4 fixed  px-4  ">
+          <h1
+            className="instagram-logo text-3xl text-zinc-700 cursor-pointer"
+            onClick={() => navigate("/")}
+          >
+            Instagram
+          </h1>
+          <div className="flex flex-col lg:gap-3   ">
+            {sideBarIcons.map((item, index) => (
+              <div
+                onClick={() => SidebarHandler(item.name)}
+                key={index}
+                className="flex items-center relative hover:bg-gray-200   cursor-pointer rounded-lg p-3 gap-3 text-lg lg:text-xl font-semibold "
+              >
+                {item.icon}
+                <span>{item.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
+        <CreatePost open={open} setOpen={setOpen} />
       </div>
-      <CreatePost open={open} setOpen={setOpen} />
     </div>
   );
 }
